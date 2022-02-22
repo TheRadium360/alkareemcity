@@ -2,6 +2,7 @@
 const mongoose=require( "mongoose" );
 const dotenv=require( "dotenv" );
 
+//checking
 //! Listener to be called when any uncaught error(programming error) occurs
 process.on( "uncaughtException", ( err ) => {
     console.error( `${err.name} ${err.message}` );
