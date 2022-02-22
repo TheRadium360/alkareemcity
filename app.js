@@ -12,6 +12,7 @@ const cookieParser=require( 'cookie-parser' );
 const AppError=require( './utils/appError' );
 const globalErrorHandler=require( './controllers/errorController' );
 const userRouter=require( './routes/userRouter' );
+const digitalRouter=require( './routes/digitalRouter' );
 
 const app=express();
 
@@ -71,6 +72,7 @@ app.use( xss() ) //clean  malicious html code from user input
 
 //! MiddleWare for specfic routes
 app.use( '/api/v1/users', userRouter ); //if route === "/api/v1/users"
+app.use( '/api/v1/digitalpages', digitalRouter ); //if route === "/api/v1/users"
 
 
 
