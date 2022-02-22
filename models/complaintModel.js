@@ -21,7 +21,7 @@ const complaintSchema=new mongoose.Schema( {
   email: {
     type: String,
     required: [ true, "Please fill the email" ],
-    validate: [ validate.isEmail, "" ],
+    validate: [ validator.isEmail, "Invalid Email!" ],
     trim: true
   },
 
