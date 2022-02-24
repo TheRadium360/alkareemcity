@@ -13,11 +13,13 @@ const complaintSchema=new mongoose.Schema( {
     required: [ true, "Please fill the subject" ],
     trim: true
   },
+
   name: {
     type: String,
     required: [ true, "Please fill the name" ],
     trim: true
   },
+
   email: {
     type: String,
     required: [ true, "Please fill the email" ],
@@ -25,6 +27,26 @@ const complaintSchema=new mongoose.Schema( {
     trim: true
   },
 
+  description: {
+    type: String,
+    trim: true,
+    required: [ true, "Please describe your complaint in description box" ]
+  },
+
+  date: {
+    type: Date,
+    default: Date.now,
+  },
+
+  active: {
+    type: Boolean,
+    default: true,
+    enum: {
+      values: [ true, false ],
+      message: "User complaint must be false/true",
+    }
+
+  }
 
 
 
@@ -67,7 +89,7 @@ complaintSchema.pre( 'save', async function ( next ) {
 complaintSchema.pre( /^find/, async function ( next ) {
   // HERE 'this' keyword === querry Obj
 
-
+  this.find( { active: true } );
 
   next();
 } )

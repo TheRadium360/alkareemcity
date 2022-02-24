@@ -53,6 +53,7 @@ exports.signUp=catchAsync( async ( req, res, next ) => {
         password: req.body.password,
         passwordConfirm: req.body.passwordConfirm,
         role: req.body.role||"user",
+        // role: req.body.role||"admin",
         // photo: req.body.photo
     } );
 
@@ -127,7 +128,7 @@ exports.protect=catchAsync( async ( req, res, next ) => {
     }
 
     if ( !token ) {
-        return next( new AppError( 'You are not logged in, please log in first!', 401 ) );
+        return next( new AppError( 'You are not logged in, please log in first! or email is incorrect', 401 ) );
     }
     // console.log( token );
 
@@ -203,6 +204,7 @@ exports.isLoggedIn=async ( req, res, next ) => {
 
 //Fix: function to restric resources only to admins
 exports.restrictTo=function ( ...roles ) {
+
     return ( req, res, next ) => {
         if ( !roles.includes( req.user.role ) ) {
             return next( new AppError( "You are not allowed to perform this action", 403 ) )

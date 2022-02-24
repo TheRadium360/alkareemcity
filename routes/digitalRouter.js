@@ -1,5 +1,5 @@
 const express=require( "express" );
-const {uploadDigitalImages,resizeDigitalImage,createDigitalPage}=require("../controllers/digitalController");
+const { uploadDigitalImages, resizeDigitalImage, createDigitalPage, getDigitalPage, updateDigitalPage, getAllDigitalPage, deleteDigitalPage }=require( "../controllers/digitalController" );
 
 
 
@@ -11,10 +11,9 @@ const Router=express.Router();
 
 
 Router.route( "/" )
-  .post(uploadDigitalImages,resizeDigitalImage,createDigitalPage);
-  // .delete( deleteData )
-  // .patch( updateData )
+  .post( uploadDigitalImages, resizeDigitalImage, createDigitalPage ).get( getAllDigitalPage );
 
+Router.route( "/:id" ).get( getDigitalPage ).patch( uploadDigitalImages, resizeDigitalImage, updateDigitalPage ).delete( deleteDigitalPage );
 
 
 module.exports=Router;

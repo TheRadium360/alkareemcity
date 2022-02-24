@@ -23,13 +23,15 @@ const upload = multer({
   fileFilter: multerFilter
 });
 
-exports.uploadDigitalImages = upload.fields([
-  { name: 'image', maxCount: 1 }
-]);
+// exports.uploadDigitalImages = upload.fields([
+//   { name: 'image', maxCount: 1 }
+// ]);
+
+exports.uploadDigitalImages=upload.single( "image" );
 
 
-exports.resizeDigitalImage = catchAsync(async (req, res, next) => {
-  if ( !req.file.image) return next();
+exports.resizeDigitalImage=catchAsync( async ( req, res, next ) => {
+  if ( !req.file ) return next();
 
   // 1) Icon image
   req.body.image = `dp-${Date.now()}-icon.jpeg`;
@@ -47,22 +49,20 @@ exports.resizeDigitalImage = catchAsync(async (req, res, next) => {
 
 
 
-exports.createDigitalPage= factory.createOne(Digital);
-
 
 
 
 // Optimize: get all 
-//exports.getAllData=factory.getAll( Model );
+exports.getAllDigitalPage=factory.getAll( Digital );
 
 // Optimize: get single data basaed on id
-//exports.getSingleData=factory.getOne( Model );
+exports.getDigitalPage=factory.getOne( Digital );
 
 // Optimize: Create  
-//exports.createData=factory.createOne( Model );
+exports.createDigitalPage=factory.createOne( Digital );
 
 // Optimize: update based on id 
-//exports.updateData=factory.updateOne( Model )
+exports.updateDigitalPage=factory.updateOne( Digital )
 
 // Optimize: delete  based on id 
-//exports.deleteData=factory.deleteOne( Model );
+exports.deleteDigitalPage=factory.deleteOne( Digital );
