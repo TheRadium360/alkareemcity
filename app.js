@@ -15,6 +15,7 @@ const userRouter=require( './routes/userRouter' );
 const digitalRouter=require( './routes/digitalRouter' );
 const flexRouter=require( './routes/flexRouter' );
 const complaintRouter=require( './routes/complaintRouter' );
+const installmentRouter=require( './routes/installmentRouter' );
 
 const app=express();
 
@@ -78,6 +79,7 @@ app.use( '/api/v1/flexes', flexRouter );
 app.use( '/api/v1/users', userRouter );
 app.use( '/api/v1/digitalpages', digitalRouter );
 app.use( '/api/v1/complaints', complaintRouter );
+app.use( '/api/v1/installment', installmentRouter );
 
 
 
