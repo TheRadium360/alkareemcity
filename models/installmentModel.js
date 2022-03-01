@@ -23,17 +23,20 @@ const installmentSchema=new mongoose.Schema( {
   },
   startDate: {
     type: Date,
-    default: Date.now,
+
+    default:Date.now,
   },
   dueDate: {
     type: Date,
-    default: function () {
-      return new Date( this.startDate ).setMonth( this.startDate.getMonth()+1 )
+    default:function(){
+      return new Date(this.startDate.getMonth()+1)
     },
   },
   installmentCount: {
     type: Number,
-    default: 0,
+
+    default:0,
+
   },
   possesionAmount: {
     type: Number,

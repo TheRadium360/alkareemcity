@@ -38,4 +38,9 @@ exports.createInstallment=factory.createOne( Installment );
 //exports.updateData=factory.updateOne( Model )
 
 // Optimize: delete  based on id
+
+// Optimize: update based on id 
+//exports.updateData=factory.updateOne( Model )
+
+// Optimize: delete  based on id 
 //exports.deleteData=factory.deleteOne( Model );
