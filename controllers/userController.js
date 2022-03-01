@@ -130,7 +130,7 @@ exports.getAllUsers=factory.getAll( User );
 exports.getUser=factory.getOne( User );
 
 // FIX: Create user basaed (By Admins)
-exports.createUser=factory.createOne( User );
+exports.createUser=factory.createOne( User, { ret: true } );
 
 // FIX: update user based on id (By Admins)  and don't update password
 exports.updateUser=factory.updateOne( User )

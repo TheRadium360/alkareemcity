@@ -47,10 +47,14 @@ exports.updateOne = ( Model ) => {
 }
 
 //Fix:  Create document in DB
-exports.createOne = ( Model ) => {
+exports.createOne=( Model, options ) => {
     return catchAsync( async ( req, res, next ) => {
 
         const doc = await Model.create( req.body );
+        if ( options ) {
+            req.body.user=doc._id;
+            next();
+        }
 
         res.status( 201 ).json( {
             status: 'success',

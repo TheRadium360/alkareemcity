@@ -7,75 +7,68 @@ const validator = require("validator"); // 3rd part validation package
 
 
 //Optimize:  **************************  Modal installmentSchema ******************************
-const installmentSchema = new mongoose.Schema({
-    plan: {
-        type: String,
-        required: [true, "Please select plan"],
-        trim: true
+const installmentSchema=new mongoose.Schema( {
+  plan: {
+    type: String,
+    required: [ true, "Please select plan" ],
+    trim: true
+  },
+  totalAmount: {
+    type: Number,
+    required: [ true, "Please enter total amount" ],
+  },
+  possession: {
+    type: Boolean,
+    default: false,
+  },
+  startDate: {
+    type: Date,
+    default:Date.now,
+  },
+  dueDate: {
+    type: Date,
+    default:function(){
+      return new Date( this.startDate ).setMonth( this.startDate.getMonth()+1 );
     },
-    totalAmount: {
-        type: Number,
-        required: [true, "Please enter total amount"],
-    },
-    possession: {
-        type: Boolean,
-        default: false,
-    },
-    startDate: {
-        type: Date,
-
-        default: Date.now,
-    },
-    dueDate: {
-        type: Date,
-        default: function() {
-            return new Date(this.startDate.getMonth() + 1)
-        },
-    },
-    installmentCount: {
-        type: Number,
-
-        default: 0,
-
-    },
-    possesionAmount: {
-        type: Number,
-        required: [true, "Please enter possesion amount"],
-    },
-    installmentPerMonth: {
-        type: Number,
-        required: [true, "Please enter installemt amount"],
-    },
-    ballotAmount: {
-        type: Number,
-        required: [true, "Please enter ballot amount"],
-    },
-    bookingAmount: {
-        type: Number,
-        required: [true, "Please enter booking amount"],
-    },
-    bookingAmount: {
-        type: Number,
-        required: [true, "Please enter booking amount"],
-    },
-    fineAmount: {
-        type: Number,
-        default: 0,
-    },
-    totalInstallmentCount: {
-        type: Number,
-        required: [true, "please enter number of intallments of the plan"]
-    },
-    user: {
-        type: mongoose.Schema.ObjectId,
-        ref: "User",
-        required: [true, "Please join a user ID"],
-    },
-    plot: {
-        type: mongoose.Schema.ObjectId,
-        ref: "Plot",
-        required: [true, "Please join a plot ID"],
-    }
+  },
+  installmentCount: {
+    type: Number,
+    default: 0,
+  },
+  possesionAmount: {
+    type: Number,
+    required: [ true, "Please enter possesion amount" ],
+  },
+  installmentPerMonth: {
+    type: Number,
+    required: [ true, "Please enter installemt amount" ],
+  },
+  ballotAmount: {
+    type: Number,
+    required: [ true, "Please enter ballot amount" ],
+  },
+  bookingAmount: {
+    type: Number,
+    required: [ true, "Please enter booking amount" ],
+  },
+  fineAmount: {
+    type: Number,
+    default: 0,
+  },
+  halfYearPayment: {
+    type: Number,
+    required: true
+  },
+  user: {
+    type: mongoose.Schema.ObjectId,
+    ref: "User",
+    required: [ true, "Please join a user ID" ],
+  },
+  plot: {
+    type: mongoose.Schema.ObjectId,
+    ref: "Plot",
+    required: [ true, "Please join a plot ID" ],
+  }
 
 
 
