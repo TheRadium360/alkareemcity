@@ -13,7 +13,7 @@ const Router = express.Router();
 //Optimize:   ************** Routes ***************
 
 
-Router.get('/', protect, restrictTo('admin'), getAllRequestApproval);
+Router.get('/', getAllRequestApproval);
 Router.patch('/:id', protect, restrictTo('admin'), approvedInstallment, updateApprovalRequest);
 Router.post('/', uploadTransactionImage, resizeTransactionImage, createRequestApproval);
 

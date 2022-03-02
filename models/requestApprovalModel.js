@@ -1,5 +1,5 @@
-const mongoose=require( 'mongoose' );
-const validator=require( "validator" );  // 3rd part validation package
+const mongoose = require('mongoose');
+const validator = require("validator"); // 3rd part validation package
 // const slugify=require( "slugify" );
 // const bcrypt=require( 'bcryptjs' );
 // const crypto=require( 'crypto' );
@@ -7,43 +7,43 @@ const validator=require( "validator" );  // 3rd part validation package
 
 
 //Optimize:  ************************** requestApproval Modal Schema ******************************
-const requestApprovalSchema=new mongoose.Schema( {
+const requestApprovalSchema = new mongoose.Schema({
 
-  transactionImage: {
-    type: String,
-    required: [ true, "Please provide your transaction reciept image" ]
-  },
-  installment: {
-    type: mongoose.Schema.ObjectId,
-    ref: "Installment",
-    required: [ true, "Please installment ID" ],
-  },
-  user: {
-    type: mongoose.Schema.ObjectId,
-    ref: "User",
-    required: [ true, "Please provide user ID" ],
-  },
-  plotNo: {
-    type: String,
-    required: [ true, "Please provide plot number" ]
-  },
-  status: {
-    type: Boolean,
-    default: false
-  }
+    transactionImage: {
+        type: String,
+        required: [true, "Please provide your transaction reciept image"]
+    },
+    installment: {
+        type: mongoose.Schema.ObjectId,
+        ref: "Installment",
+        required: [true, "Please installment ID"],
+    },
+    user: {
+        type: mongoose.Schema.ObjectId,
+        ref: "User",
+        required: [true, "Please provide user ID"],
+    },
+    plotNumber: {
+        type: String,
+        required: [true, "Please provide plot number"]
+    },
+    status: {
+        type: Boolean,
+        default: false
+    }
 
 
 
 }, {
-  // TO SEE VIRTUAL FIELDS 
-  toJSON: {
-    virtuals: true
-  },
-  toObject: {
-    virtuals: true
-  },
+    // TO SEE VIRTUAL FIELDS 
+    toJSON: {
+        virtuals: true
+    },
+    toObject: {
+        virtuals: true
+    },
 
-} );
+});
 
 
 
@@ -61,33 +61,33 @@ const requestApprovalSchema=new mongoose.Schema( {
 //Todo: ************************** Document/query/aggregation middlewares ******************************
 
 // ******** DOCUMENT MIDDLEWARE: runs before .save() and .create()
-requestApprovalSchema.pre( 'save', async function ( next ) {
-  // HERE 'this' keyword === current document 
+requestApprovalSchema.pre('save', async function(next) {
+    // HERE 'this' keyword === current document 
 
 
-  next();
-} )
+    next();
+})
 
 
 // ******** QUERRY MIDDLEWARE: runs before executing any find query
-requestApprovalSchema.pre( /^find/, async function ( next ) {
-  // HERE 'this' keyword === querry Obj
+requestApprovalSchema.pre(/^find/, async function(next) {
+    // HERE 'this' keyword === querry Obj
 
-  this.find( { status: false } );
+    this.find({ status: false });
 
 
-  next();
-} )
+    next();
+})
 
 
 // ******** AGGREGATION MIDDLEWARE: runs before executing Agrregation pipepline
-requestApprovalSchema.pre( 'aggregate', async function ( next ) {
-  // HERE 'this' keyword === aggregation Obj
+requestApprovalSchema.pre('aggregate', async function(next) {
+    // HERE 'this' keyword === aggregation Obj
 
 
 
-  next();
-} )
+    next();
+})
 
 
 
@@ -95,12 +95,12 @@ requestApprovalSchema.pre( 'aggregate', async function ( next ) {
 //TODO:  ************************** instance methods of documents ******************************
 
 
-requestApprovalSchema.methods.checkName=async function () {
-  return ""; // return anything based on logic
+requestApprovalSchema.methods.checkName = async function() {
+    return ""; // return anything based on logic
 }
 
 
-const RequestApproval=mongoose.model( 'RequestApproval', requestApprovalSchema );
+const RequestApproval = mongoose.model('RequestApproval', requestApprovalSchema);
 
 
-module.exports=RequestApproval;
+module.exports = RequestApproval;

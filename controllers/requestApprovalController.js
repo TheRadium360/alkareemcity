@@ -1,8 +1,9 @@
-// const User=require( "../models/userModel" );
 const catchAsync = require("../utils/catchAysnc");
 const AppError = require("../utils/appError");
 const factory = require('./FactoryHandler');
 const RequestApproval = require("../models/requestApprovalModel");
+const multer = require('multer');
+const sharp = require('sharp');
 
 
 //Todo:  ************************** helper functuions ******************************
@@ -56,9 +57,9 @@ exports.createRequestApproval = factory.createOne(RequestApproval)
 exports.updateApprovalRequest = catchAsync(async(req, res, next) => {
     const installment = req.params.id;
 
-    const { user, plotNo } = req.body;
+    const { user, plotNumber } = req.body;
 
-    const updatedResult = await RequestApproval.findOneAndUpdate({ user, installment, plotNo, status: false }, { status: true });
+    const updatedResult = await RequestApproval.findOneAndUpdate({ user, installment, plotNumber, status: false }, { status: true });
 
     // if ( !updatedResult ) return next( new AppError( "Request may have already been approved! or Try again later! " ) )
 
