@@ -1,5 +1,5 @@
 const express=require( "express" );
-const { createInstallment ,approvedInstallment} = require("../controllers/installmentController");
+const { createInstallment ,approvedInstallment,getInstallment} = require("../controllers/installmentController");
 
 
 const Router=express.Router();
@@ -10,8 +10,7 @@ const Router=express.Router();
 Router.post( '/',createInstallment);
 
 
-Router.route( "/:id" )
-  .patch( approvedInstallment);
+Router.route( "/:id" ).get(getInstallment).patch( approvedInstallment);
 
 
 

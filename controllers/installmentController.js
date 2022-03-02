@@ -44,17 +44,18 @@ exports.createInstallment = catchAsync(async(req, res, next) => {
   req.body.totalAmount = req.body.totalAmount - (req.body.ballotAmount + req.body.bookingAmount + req.body.installmentPerMonth);
   const doc = await Installment.create(req.body);
   res.status(200).json({
-      status: "success",
-      data: doc
+    status: "success",
+    data: doc
   })
 })
 
+exports.getInstallment=factory.getOne( Installment ,{path:"user"});
+// exports.getInstallment=factory.getOne( );
 
 // Optimize: get all 
 //exports.getAllData=factory.getAll( Model );
 
 // Optimize: get single data basaed on id
-//exports.getSingleData=factory.getOne( Model );
 
 // Optimize: Create  
 

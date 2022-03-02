@@ -2,6 +2,7 @@ const mongoose=require( 'mongoose' );
 const validator=require( "validator" );
 const bcrypt=require( 'bcryptjs' );
 const crypto=require( 'crypto' );
+const installments=require("./installmentModel");
 
 //Optimize:  ************************** User Modal Schema ******************************
 const userSchema=new mongoose.Schema( {
@@ -68,7 +69,26 @@ const userSchema=new mongoose.Schema( {
 
 
 
-} );
+} ,
+{
+    // TO SEE VIRTUAL FIELDS 
+    toJSON: {
+        virtuals: true
+    },
+    toObject: {
+        virtuals: true
+    },
+
+});
+
+
+
+userSchema.virtual( 'installmentPlan',{
+    ref:"Installment",
+    localField:"_id",
+    foreignField:"user"
+})
+
 
 //Todo: ************************** Document/query/aggregation middlewares ******************************
 userSchema.pre( 'save', async function ( next ) {
