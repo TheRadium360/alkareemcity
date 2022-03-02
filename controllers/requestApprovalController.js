@@ -3,6 +3,7 @@
 const catchAsync=require( "../utils/catchAysnc" );
 const AppError=require( "../utils/appError" );
 const factory=require( './FactoryHandler' );
+const RequestApproval=require( "../models/requestApprovalModel" );
 
 
 //Todo:  ************************** helper functuions ******************************
@@ -12,12 +13,18 @@ const factory=require( './FactoryHandler' );
 
 
 
-exports.greet=catchAsync( async ( req, res, next ) => {
+exports.updateApprovalRequest=catchAsync( async ( req, res, next ) => {
+  const installment=req.params.id;
 
-  //? (2) Send the delete response with 204 code
+  const { user, plotNo }=req.body;
+
+  const updatedResult=await RequestApproval.findOneAndUpdate( { user, installment, plotNo, status: false }, { status: true } );
+
+  // if ( !updatedResult ) return next( new AppError( "Request may have already been approved! or Try again later! " ) )
+
   res.status( 200 ).json( {
     status: "success",
-    data: "Hello World!"
+    data: updatedResult
   } )
 
 } )
@@ -26,7 +33,7 @@ exports.greet=catchAsync( async ( req, res, next ) => {
 
 
 // Optimize: get all
-//exports.getAllData=factory.getAll( Model );
+exports.getAllRequestApproval=factory.getAll( RequestApproval );
 
 // Optimize: get single data basaed on id
 //exports.getSingleData=factory.getOne( Model );

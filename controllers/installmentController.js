@@ -21,6 +21,7 @@ exports.approvedInstallment=catchAsync( async ( req, res, next ) => {
     },
     } )    
   }
+
   installment.possesion=req.body.possesion;
   installment.installmentCount++;
   installment.totalAmount -= installment.total;

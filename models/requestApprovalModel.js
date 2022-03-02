@@ -73,6 +73,7 @@ requestApprovalSchema.pre( 'save', async function ( next ) {
 requestApprovalSchema.pre( /^find/, async function ( next ) {
   // HERE 'this' keyword === querry Obj
 
+  this.find( { status: false } );
 
 
   next();
