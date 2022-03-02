@@ -99,7 +99,7 @@ requestApprovalSchema.methods.checkName=async function () {
 }
 
 
-const SchemaModel=mongoose.model( 'SchemaName', requestApprovalSchema );
+const RequestApproval=mongoose.model( 'RequestApproval', requestApprovalSchema );
 
 
-module.exports=SchemaModel;
+module.exports=RequestApproval;

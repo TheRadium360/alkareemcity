@@ -16,6 +16,7 @@ const digitalRouter=require( './routes/digitalRouter' );
 const flexRouter=require( './routes/flexRouter' );
 const complaintRouter=require( './routes/complaintRouter' );
 const installmentRouter=require( './routes/installmentRouter' );
+const RequestApproval=require( './models/requestApprovalModel' );
 
 const app=express();
 
@@ -80,7 +81,7 @@ app.use( '/api/v1/users', userRouter );
 app.use( '/api/v1/digitalpages', digitalRouter );
 app.use( '/api/v1/complaints', complaintRouter );
 app.use( '/api/v1/installment', installmentRouter );
-
+app.use( '/api/v1/requestapproval', RequestApproval );
 
 
 
