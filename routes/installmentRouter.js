@@ -1,7 +1,5 @@
 const express=require( "express" );
-const { protect, restrictTo }=require( "../controllers/authController" );
-const { createInstallment } = require("../controllers/installmentController");
-const { createUser }=require( "../controllers/userController" );
+const { createInstallment ,approvedInstallment} = require("../controllers/installmentController");
 
 
 const Router=express.Router();
@@ -10,15 +8,10 @@ const Router=express.Router();
 
 
 Router.post( '/',createInstallment);
-Router.post( '/bookinstallment', protect, restrictTo( 'admin' ), createUser, createInstallment );
-
-
 
 
 Router.route( "/:id" )
-  // .get( getData )
-  // .delete( deleteData )
-  // .patch( updateData )
+  .patch( approvedInstallment);
 
 
 

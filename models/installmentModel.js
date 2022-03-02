@@ -17,19 +17,17 @@ const installmentSchema=new mongoose.Schema( {
     type: Number,
     required: [ true, "Please enter total amount" ],
   },
-  possession: {
+  possesion: {
     type: Boolean,
     default: false,
+  },
+  planStartDate: {
+    type: Date,
+    default:Date.now,
   },
   startDate: {
     type: Date,
     default:Date.now,
-  },
-  dueDate: {
-    type: Date,
-    default:function(){
-      return new Date( this.startDate ).setMonth( this.startDate.getMonth()+1 );
-    },
   },
   installmentCount: {
     type: Number,
@@ -59,15 +57,19 @@ const installmentSchema=new mongoose.Schema( {
     type: Number,
     required: true
   },
+
+  totalInstallmentCount:{
+    type: Number,
+    required: true
+  },
   user: {
     type: mongoose.Schema.ObjectId,
     ref: "User",
     required: [ true, "Please join a user ID" ],
   },
-  plot: {
-    type: mongoose.Schema.ObjectId,
-    ref: "Plot",
-    required: [ true, "Please join a plot ID" ],
+  plotNumber: {
+    type: String,
+    required: [ true, "Please join a plot number" ],
   }
 
 
@@ -89,9 +91,30 @@ const installmentSchema=new mongoose.Schema( {
 
 //Todo: ************************** Adding virtual properties ******************************
 // ***** Whatever return will be set to virtual property value
-// installmentSchema.virtual( 'nickName' ).get( function () {
-//   return this.name.slice(0,3);
-// } )
+installmentSchema.virtual( 'fine' ).get( function () {
+  let days=Math.ceil(Math.abs(this.dueDate - new Date(Date.now())) / (1000 * 60 * 60 * 24));
+  return days >0 ? this.fineAmount * days : 0;
+
+} )
+
+
+
+installmentSchema.virtual( 'total' ).get( function () {
+
+  let total=(this.installmentCount%6===0) ? this.installmentPerMonth+this.fine+this.halfYearPayment:this.installmentPerMonth+this.fine;
+
+  //If user pays posession 
+  if(this.possesion && this.possesionAmount){
+  total+=this.possesionAmount;
+  this.possesionAmount=0;
+  }
+
+  return total;
+} )
+
+installmentSchema.virtual( 'dueDate' ).get( function () {
+  return new Date(new Date( this.startDate ).setMonth( this.startDate.getMonth()+1 ));
+} )
 
 
 
