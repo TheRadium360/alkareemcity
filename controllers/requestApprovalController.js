@@ -1,39 +1,80 @@
-
 // const User=require( "../models/userModel" );
-const catchAsync=require( "../utils/catchAysnc" );
-const AppError=require( "../utils/appError" );
-const factory=require( './FactoryHandler' );
-const RequestApproval=require( "../models/requestApprovalModel" );
+const catchAsync = require("../utils/catchAysnc");
+const AppError = require("../utils/appError");
+const factory = require('./FactoryHandler');
+const RequestApproval = require("../models/requestApprovalModel");
 
 
 //Todo:  ************************** helper functuions ******************************
 
+// *************** Image uploading and processing
+const multerStorage = multer.memoryStorage();
+const multerFilter = (req, file, cb) => {
+    if (file.mimetype.startsWith('image')) {
+        cb(null, true);
+    } else {
+        cb(new AppError('Not an image! Please upload only images.', 400), false);
+    }
+};
+const upload = multer({
+    storage: multerStorage,
+    fileFilter: multerFilter
+});
+
+exports.uploadTransactionImage = upload.single('transactionImage');
+
+
+
+
+exports.resizeTransactionImage = catchAsync(async(req, res, next) => {
+    if (!req.file)
+        return next(new AppError("Please select image for transaction!", 400));
+    const filename = `transaction-reciept-${Date.now()+1}.jpeg`
+    await sharp(req.file.buffer)
+        // .resize(2000, 1333)
+        .toFormat('jpeg')
+        .jpeg({ quality: 50 })
+        .toFile(`img/transactions/${filename}`);
+    req.body.transactionImage = filename;
+
+    next();
+
+})
 
 
 
 
 
-exports.updateApprovalRequest=catchAsync( async ( req, res, next ) => {
-  const installment=req.params.id;
+exports.createRequestApproval = factory.createOne(RequestApproval)
 
-  const { user, plotNo }=req.body;
 
-  const updatedResult=await RequestApproval.findOneAndUpdate( { user, installment, plotNo, status: false }, { status: true } );
 
-  // if ( !updatedResult ) return next( new AppError( "Request may have already been approved! or Try again later! " ) )
 
-  res.status( 200 ).json( {
-    status: "success",
-    data: updatedResult
-  } )
 
-} )
+
+
+exports.updateApprovalRequest = catchAsync(async(req, res, next) => {
+    const installment = req.params.id;
+
+    const { user, plotNo } = req.body;
+
+    const updatedResult = await RequestApproval.findOneAndUpdate({ user, installment, plotNo, status: false }, { status: true });
+
+    // if ( !updatedResult ) return next( new AppError( "Request may have already been approved! or Try again later! " ) )
+
+    res.status(200).json({
+        status: "success",
+        data: updatedResult
+    })
+
+})
 
 
 
 
 // Optimize: get all
-exports.getAllRequestApproval=factory.getAll( RequestApproval );
+exports.getAllRequestApproval = factory.getAll(RequestApproval);
+exports.deleteRequestApproval = factory.deleteOne(RequestApproval);
 
 // Optimize: get single data basaed on id
 //exports.getSingleData=factory.getOne( Model );
