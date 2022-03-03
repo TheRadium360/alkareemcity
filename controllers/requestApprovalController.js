@@ -55,13 +55,13 @@ exports.createRequestApproval = factory.createOne(RequestApproval)
 
 
 exports.updateApprovalRequest = catchAsync(async(req, res, next) => {
-    const installment = req.params.id;
+    const installment = req.installment;
+    console.log(req.installment);
+    // const { user, plotNumber } = req.body;
 
-    const { user, plotNumber } = req.body;
+    const updatedResult = await RequestApproval.findOneAndUpdate({ user: installment.user, installment : installment._id, plotNumber : installment.plotNumber, status: false }, { status: true });
 
-    const updatedResult = await RequestApproval.findOneAndUpdate({ user, installment, plotNumber, status: false }, { status: true });
-
-    // if ( !updatedResult ) return next( new AppError( "Request may have already been approved! or Try again later! " ) )
+    if ( !updatedResult ) return next( new AppError( "Request may have already been approved! or Try again later! " ) )
 
     res.status(200).json({
         status: "success",

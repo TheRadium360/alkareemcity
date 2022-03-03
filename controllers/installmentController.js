@@ -31,10 +31,13 @@ exports.approvedInstallment=catchAsync( async ( req, res, next ) => {
    runValidators: true
 } );
 
-res.status( 200 ).json( {
+  // req.installment=installment;
+  //  next();
+
+  res.status(200).json({
     status: "success",
-    data: installment,
-  } )
+    data: installment
+  })
 
 } )
 

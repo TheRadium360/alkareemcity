@@ -23,10 +23,6 @@ const requestApprovalSchema = new mongoose.Schema({
         ref: "User",
         required: [true, "Please provide user ID"],
     },
-    plotNumber: {
-        type: String,
-        required: [true, "Please provide plot number"]
-    },
     status: {
         type: Boolean,
         default: false
