@@ -53,6 +53,7 @@ exports.signUp=catchAsync( async ( req, res, next ) => {
         password: req.body.password,
         passwordConfirm: req.body.passwordConfirm,
         role: req.body.role||"user",
+        CNIC: req.body.CNIC
         // role: req.body.role||"admin",
         // photo: req.body.photo
     } );

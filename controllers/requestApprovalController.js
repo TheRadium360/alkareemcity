@@ -17,10 +17,10 @@ const multerFilter = (req, file, cb) => {
         cb(new AppError('Not an image! Please upload only images.', 400), false);
     }
 };
-const upload = multer({
+const upload=multer( {
     storage: multerStorage,
     fileFilter: multerFilter
-});
+} );
 
 exports.uploadTransactionImage = upload.single('transactionImage');
 

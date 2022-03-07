@@ -19,7 +19,7 @@ const userSchema=new mongoose.Schema( {
 
     email: { // Identifying users by email
         type: String,
-        unique: true,
+        unique: [ true, "User with this email already exist" ],
         required: [ true, "Please provide your email" ],
         trim: true,
         lowercase: true,
@@ -41,6 +41,18 @@ const userSchema=new mongoose.Schema( {
         type: Boolean,
         default: true,
         select: false
+    },
+    CNIC: {
+        type: String,
+        required: [ true, "please provide your CNIC" ],
+        unique: [ true, "User already exist!" ],
+        validate: {
+            validator: function ( val ) {
+                console.log( ( /^[ 0-9 ]{5}-[ 0-9 ]{7}-[ 0-9 ]$/ ).test( val ) )
+                return ( /^[ 0-9 ]{5}-[ 0-9 ]{7}-[ 0-9 ]$/ ).test( val )
+            },
+            message: "CNIC No must follow the XXXXX-XXXXXXX-X format!"
+        }
     },
 
     password: {

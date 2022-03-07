@@ -3,6 +3,7 @@
 // ********* ALL REQUIRE MODULES ************
 const express=require( 'express' );
 // import express from 'node:express' ;
+const cors=require( 'cors' )
 const morgan=require( 'morgan' );
 const rateLimit=require( 'express-rate-limit' );
 const helmet=require( 'helmet' );
@@ -22,6 +23,7 @@ const requestApprovalRouter=require( './routes/requestApprovalRouter' );
 // const RequestApproval=require( './models/requestApprovalModel' );
 
 const app=express();
+app.use( cors() )
 
 
 
