@@ -10,7 +10,9 @@ const Router=express.Router();
 Router.post( '/',createInstallment);
 
 
-Router.route( "/:id" ).get(getInstallment).patch( approvedInstallment);
+Router.route( "/:id" )
+  .get( getInstallment )
+  .patch( approvedInstallment );
 
 
 
