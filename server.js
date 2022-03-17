@@ -30,10 +30,10 @@ mongoose.connect( DB, {
 
 //Optimize:                    ************** Starting the server ***************
 // console.log( process.env )
-//! Starting the server at 127.0.0.1:3000
-const server=app.listen( 3001, () => {
+//! Starting the server at 127.0.0.1:30001
+const server=app.listen( process.env.PORT, () => {
     // eslint-disable-next-line no-console
-    console.log( "Starting the server at 127.0.0.1:3001" );
+    console.log( "Starting the server at 127.0.0.1:"+process.env.PORT );
 } );
 
 //! Listener to be called when any unhandle rejected promise occurs
@@ -43,5 +43,9 @@ process.on( "unhandledRejection", ( err ) => {
     server.close( () => {
         process.exit( 1 );
     } )
+
+
+
+
 
 } )

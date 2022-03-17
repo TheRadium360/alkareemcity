@@ -7,7 +7,8 @@ const {
     updateMe,
     deleteMe,
     updateUser, // For admins
-    createUser, // For admins
+    createUser,
+    updateUserPass, // For admins
     // uploadUserPhoto,
     // resizeUserPhoto
 }=require( `./../controllers/userController` );
@@ -60,6 +61,6 @@ userRouter.route( "/" )
 
 userRouter.route( "/:id" )
     .delete( deleteUser )
-    .patch( updateUser )
+    .patch( updateUser, updateUserPass )
 
 module.exports=userRouter;

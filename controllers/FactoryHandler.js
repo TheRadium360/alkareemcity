@@ -28,11 +28,13 @@ exports.deleteOne = ( Model ) => {
 //Fix:  update documents from DB based on id provided in url 
 exports.updateOne = ( Model ) => {
     return catchAsync( async ( req, res, next ) => {
-
+        console.log( "param id: ", req.params.id )
+        console.log( req.body )
         const doc = await Model.findByIdAndUpdate( req.params.id, req.body, {
             new: true,
-            runValidators: true
+            // runValidators: true
         } );
+        console.log( doc );
 
         if ( !doc ) {
             return next( new AppError( `Could not found document with ID: ${req.params.id}`, 404 ) );
@@ -50,11 +52,13 @@ exports.updateOne = ( Model ) => {
 exports.createOne=( Model, options ) => {
     return catchAsync( async ( req, res, next ) => {
 
-        const doc = await Model.create( req.body );
-        if ( options ) {
-            req.body.user=doc._id;
-            next();
-        }
+        console.log( "-------> ", req.body )
+        const doc=await Model.create( req.body );
+        console.log( doc )
+        // if ( options ) {
+        //     req.body.user=doc._id;
+        //     next();
+        // }
 
         res.status( 201 ).json( {
             status: 'success',

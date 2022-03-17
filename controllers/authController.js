@@ -18,17 +18,20 @@ const createSignToken=( id ) => {
     } )
 }
 
-const createTokenSendResponse=( statusCode, user, res ) => {
+const createTokenSendResponse=( statusCode, user, res, req ) => {
     const token=createSignToken( user._id );
 
 
     const cookieOptions={
         // Cookie will expires and remove from browser in 90 days from now
+
         expires: new Date( Date.now()+( process.env.JWT_COOKIE_EXPIRE_TIME*24*60*60*1000 ) ),
         httpOnly: true, // cookie cannot be accessed or modified in any way by the browser and besides all this only thing browser can do is just recieve the cookie, store it and send it automatically along with every request
     }
     // Cookie will only be sent through encrypted connection(https)
     if ( process.env.NODE_ENV.trim()==='production' ) cookieOptions.secure=true;
+    // res.header( 'Access-Control-Allow-Origin', req.headers.origin );
+    // res.header( 'Access-Control-Allow-Credentials', true );
 
     res.cookie( 'jwt', token, cookieOptions )
     user.password=undefined;
@@ -74,6 +77,7 @@ exports.logIn=catchAsync( async ( req, res, next ) => {
         email,
         password
     }=req.body;
+    console.log( req.body )
 
 
     //? (1) Checking if user inputed email or password
@@ -90,7 +94,7 @@ exports.logIn=catchAsync( async ( req, res, next ) => {
         return next( new AppError( "Incorrect email or password!", 401 ) );
     }
 
-    createTokenSendResponse( 200, user, res );
+    createTokenSendResponse( 200, user, res, req );
 
 } )
 
@@ -116,15 +120,13 @@ exports.logout=catchAsync( async ( req, res, next ) => {
 
 //Fix: Protecting the routes and asking user to log in first to excess the resource
 exports.protect=catchAsync( async ( req, res, next ) => {
-
+    console.log( "Cookies: ", req.cookies )
+    console.log( "Header: ", req.headers )
     //? (1) Getting token and check of it's there
     const {
         authorization
     }=req.headers;
     let token;
-
-    console.log(req);
-
     if ( authorization&&authorization.startsWith( 'Bearer' ) ) {
         token=authorization.split( ' ' )[ 1 ];
     } else if ( req.cookies.jwt ) {
@@ -143,6 +145,7 @@ exports.protect=catchAsync( async ( req, res, next ) => {
 
     //? (3) check if user still exists
     const currentUser=await User.findById( decode.id );
+    console.log( currentUser )
     if ( !currentUser ) {
         return next( new AppError( "The user belong to this token does no longer exist!, You need to sign up or log in again", 401 ) )
     }
@@ -150,9 +153,9 @@ exports.protect=catchAsync( async ( req, res, next ) => {
 
     //? (4) Check if user changed password after the token was issued
 
-    if ( currentUser.changePasswordAfter( decode.iat ) ) {
-        return next( new AppError( "User has recently changed the password!, Please log in again", 401 ) )
-    }
+    // if ( currentUser.changePasswordAfter( decode.iat ) ) {
+    //     return next( new AppError( "User has recently changed the password!, Please log in again", 401 ) )
+    // }
 
     // Now user have excess to protected route
     req.user=currentUser;
@@ -210,6 +213,10 @@ exports.isLoggedIn=async ( req, res, next ) => {
 exports.restrictTo=function ( ...roles ) {
 
     return ( req, res, next ) => {
+
+        console.log( "=>>>> ", req.user )
+        console.log( "=>>>> ", roles )
+        console.log( "=>>>> ", roles.includes( req.user.role ) )
         if ( !roles.includes( req.user.role ) ) {
             return next( new AppError( "You are not allowed to perform this action", 403 ) )
         }

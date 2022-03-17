@@ -133,7 +133,50 @@ exports.getUser=factory.getOne( User,{path:"installmentPlan" } );
 exports.createUser=factory.createOne( User, { ret: true } );
 
 // FIX: update user based on id (By Admins)  and don't update password
-exports.updateUser=factory.updateOne( User )
+exports.updateUser=catchAsync( async ( req, res, next ) => {
+    console.log( "param id: ", req.params.id )
+    console.log( req.body )
+    const data={
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        CNIC: req.body.CNIC,
+    }
+    const doc=await User.findByIdAndUpdate( req.params.id, data, {
+        new: true,
+        // runValidators: true
+    } );
+    console.log( doc );
+
+    if ( !doc ) {
+        return next( new AppError( `Could not found document with ID: ${req.params.id}`, 404 ) );
+    }
+
+
+
+    req.body.existingPassword=req.body.password;
+    next();
+} )
+
+exports.updateUserPass=catchAsync( async ( req, res, next ) => {
+
+    const {
+        existingPassword
+    }=req.body;
+    //? (1) Get the user from collection
+    const user=await User.findById( req.params.id ).select( '+password' );
+
+    //? (3) If so, update the password
+    user.password=req.body.password;
+    user.passwordConfirm=req.body.passwordConfirm;
+    await user.save()
+
+    res.status( 200 ).json( {
+        status: 'success',
+        data: user
+    } );
+
+} )
 
 // FIX: delete user based on id (By Admins)
 exports.deleteUser=factory.deleteOne( User );

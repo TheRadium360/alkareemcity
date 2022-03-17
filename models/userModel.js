@@ -106,7 +106,7 @@ userSchema.virtual( 'installmentPlan',{
 userSchema.pre( 'save', async function ( next ) {
     // Function runs only when we are modifying password field or on creating new user
     if ( !this.isModified( 'password' ) ) return next();
-
+    console.log( "hi from document", this )
     // Encrypting the password before saving it to database 
     this.password=await bcrypt.hash( this.password, 12 );
     this.passwordConfirm=undefined;

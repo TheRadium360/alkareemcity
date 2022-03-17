@@ -10,7 +10,8 @@ const Router=express.Router();
 
 Router.route( '/' )
   .get( protect, restrictTo( 'admin' ), getAllCompalints )
-  .post( protect, restrictTo( 'user' ), createComplaint )
+  // .post( protect, restrictTo( 'user' ), createComplaint )
+  .post( createComplaint )
 
 Router.delete( '/deleteall', protect, restrictTo( 'admin' ), deleteAll )
 Router.patch( '/retrieveall', protect, restrictTo( 'admin' ), retrieveAll )
