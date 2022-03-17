@@ -17,7 +17,15 @@ const installmentSchema = new mongoose.Schema({
         type: Number,
         required: [true, "Please enter total amount"],
     },
+    remainingBalance: {
+        type: Number,
+        required: [true, "Please enter remaining balance"],
+    },
     possesion: {
+        type: Boolean,
+        default: false,
+    },
+    ballotPaid: {
         type: Boolean,
         default: false,
     },
@@ -67,10 +75,12 @@ const installmentSchema = new mongoose.Schema({
         ref: "User",
         required: [true, "Please join a user ID"],
     },
-    plotNumber: {
-        type: String,
-        required: [true, "Please provide a plot number"],
+    plot: {
+        type: mongoose.Schema.ObjectId,
+        ref: "Plot",
+        required: [true, "Please join a plot ID"],
     }
+
 
 
 
@@ -101,12 +111,19 @@ installmentSchema.virtual('fine').get(function() {
 
 installmentSchema.virtual('total').get(function() {
 
-    let total = (this.installmentCount % 6 === 0) ? this.installmentPerMonth + this.fine + this.halfYearPayment : this.installmentPerMonth + this.fine;
+    let total;
+    if(this.installmentCount<=this.totalInstallmentCount)
+    total= (this.installmentCount % 6 === 0) ? this.installmentPerMonth + this.fine + this.halfYearPayment : this.installmentPerMonth + this.fine;
 
     //If user pays posession 
     if (this.possesion && this.possesionAmount) {
         total += this.possesionAmount;
         this.possesionAmount = 0;
+    }
+
+    if(this.ballotPaid && this.ballotAmount){
+        total+=this.ballotAmount;
+        this.ballotAmount=0;
     }
 
     return total;

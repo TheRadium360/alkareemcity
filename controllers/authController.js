@@ -122,6 +122,9 @@ exports.protect=catchAsync( async ( req, res, next ) => {
         authorization
     }=req.headers;
     let token;
+
+    console.log(req);
+
     if ( authorization&&authorization.startsWith( 'Bearer' ) ) {
         token=authorization.split( ' ' )[ 1 ];
     } else if ( req.cookies.jwt ) {
