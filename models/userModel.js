@@ -99,6 +99,12 @@ userSchema.virtual( 'installmentPlan',{
     ref:"Installment",
     localField:"_id",
     foreignField:"user"
+} )
+
+userSchema.virtual( 'plotInformation', {
+    ref: "Plot",
+    localField: "_id",
+    foreignField: "user"
 })
 
 

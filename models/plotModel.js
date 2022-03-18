@@ -39,6 +39,11 @@ const plotSchema = new mongoose.Schema({
         type: Number,
         required: [true, "Please fill the langitude of plot"],
 
+    },
+    user: {
+        type: mongoose.Schema.ObjectId,
+        ref: "User",
+        required: [ true, "Please join a user ID" ]
     }
 
 

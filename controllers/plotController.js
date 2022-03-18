@@ -13,7 +13,10 @@ exports.getAllPlots = factory.getAll(Plot);
 exports.getPlot = factory.getOne(Plot);
 
 // Optimize: Create  
-exports.createPlot = factory.createOne(Plot);
+exports.createPlot=factory.createOne( Plot );
+
+//Optimize: Update 
+exports.updatePlot=factory.updateOne( Plot )
 
 // Optimize: delete  based on id 
 exports.deletePlot = factory.deleteOne(Plot);

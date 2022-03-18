@@ -8,6 +8,7 @@ const router=express.Router();
 router.get( '/:id', plotController.getPlot );
 router.get( '/', plotController.getAllPlots );
 router.post( '/', protect, restrictTo( 'admin' ), plotController.createPlot );
+router.patch( '/:id', protect, restrictTo( 'admin' ), plotController.updatePlot );
 router.delete( '/:id', plotController.deletePlot );
 
 
