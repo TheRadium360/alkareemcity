@@ -16,7 +16,7 @@ const requestApprovalSchema = new mongoose.Schema({
     installment: {
         type: mongoose.Schema.ObjectId,
         ref: "Installment",
-        required: [true, "Please installment ID"],
+        required: [ true, "Please provide installment ID" ],
     },
     user: {
         type: mongoose.Schema.ObjectId,
@@ -26,7 +26,13 @@ const requestApprovalSchema = new mongoose.Schema({
     status: {
         type: Boolean,
         default: false
+    },
+    plot: {
+        type: mongoose.Schema.ObjectId,
+        ref: "Plot",
+        required: [ true, "Please provide plot ID" ],
     }
+
 
 
 

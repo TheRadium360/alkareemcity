@@ -10,7 +10,7 @@ const factory = require('./FactoryHandler');
 exports.getAllPlots = factory.getAll(Plot);
 
 // Optimize: get single data basaed on id
-exports.getPlot = factory.getOne(Plot);
+exports.getPlot=factory.getOne( Plot, { path: "plotInformation" } );
 
 // Optimize: Create  
 exports.createPlot=factory.createOne( Plot );
