@@ -96,7 +96,7 @@ exports.getOne = ( Model, populateOptions ) => {
 
 
 //Fix: Get all the documents from DB 
-exports.getAll = ( Model ) => {
+exports.getAll=( Model, populateOptions, options ) => {
     return catchAsync( async ( req, res, next ) => {
 
 
@@ -114,7 +114,20 @@ exports.getAll = ( Model ) => {
             .paginate();
 
         // ! EXECUTE THE QUERRY
-        const docs = await features.query;
+        let query=features.query;
+        let docs;
+        if ( options ) {
+
+            query=query.find( options );
+
+        }
+
+        if ( populateOptions ) {
+            query=query.populate( populateOptions );
+        }
+
+        docs=await query;
+
 
         // ! SENDING THE REPONSE
         res.status( 200 ).json( {

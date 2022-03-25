@@ -48,12 +48,12 @@ exports.approvedInstallment=catchAsync( async ( req, res, next ) => {
 } );
 
   req.installment=installment;
-  // next();
+  next();
 
-  res.status(200).json({
-    status: "success",
-    data: installment
-  })
+  // res.status(200).json({
+  //   status: "success",
+  //   data: installment
+  // })
 
 } )
 

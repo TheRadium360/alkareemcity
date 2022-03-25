@@ -106,6 +106,11 @@ userSchema.virtual( 'plotInformation', {
     localField: "_id",
     foreignField: "user"
 })
+userSchema.virtual( 'requestApprovalInformation', {
+    ref: "RequestApproval",
+    localField: "_id",
+    foreignField: "user"
+} )
 
 
 //Todo: ************************** Document/query/aggregation middlewares ******************************

@@ -59,7 +59,7 @@ exports.updateApprovalRequest = catchAsync(async(req, res, next) => {
     console.log(req.installment);
     // const { user, plotNumber } = req.body;
 
-    const updatedResult = await RequestApproval.findOneAndUpdate({ user: installment.user, installment : installment._id, plotNumber : installment.plotNumber, status: false }, { status: true });
+    const updatedResult=await RequestApproval.findOneAndUpdate( { user: installment.user, installment: installment._id, status: false }, { status: true } );
 
     if ( !updatedResult ) return next( new AppError( "Request may have already been approved! or Try again later! " ) )
 
@@ -74,11 +74,11 @@ exports.updateApprovalRequest = catchAsync(async(req, res, next) => {
 
 
 // Optimize: get all
-exports.getAllRequestApproval = factory.getAll(RequestApproval);
-exports.deleteRequestApproval = factory.deleteOne(RequestApproval);
+exports.getAllRequestApproval=factory.getAll( RequestApproval, { path: 'user plot installment' }, { status: false } );
+exports.deleteRequestApproval=factory.deleteOne( RequestApproval );
 
 // Optimize: get single data basaed on id
-//exports.getSingleData=factory.getOne( Model );
+exports.getSingleRequestApproval=factory.getOne( RequestApproval );
 
 // Optimize: Create
 //exports.createData=factory.createOne( Model );
