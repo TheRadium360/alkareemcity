@@ -30,6 +30,7 @@ const plotSchema = new mongoose.Schema({
         required: [true, "Please provide area of the plot"]
 
     },
+    cords:[{
     lat: {
         type: Number,
         required: [true, "Please fill the latitude of plot"],
@@ -39,7 +40,8 @@ const plotSchema = new mongoose.Schema({
         type: Number,
         required: [true, "Please fill the langitude of plot"],
 
-    },
+    }
+}],
     user: {
         type: mongoose.Schema.ObjectId,
         ref: "User",
