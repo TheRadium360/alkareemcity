@@ -76,7 +76,7 @@ exports.createInstallment = catchAsync(async(req, res, next) => {
   })
 })
 
-exports.getInstallment=factory.getOne( Installment, { path: "user plot" } );
+exports.getInstallment=factory.getOne( Installment, { path: "plot" } );
 // exports.getInstallment=factory.getOne( );
 
 // Optimize: get all 
