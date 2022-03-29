@@ -10,8 +10,12 @@ const factory = require('./FactoryHandler');
 
 exports.approvedInstallment=catchAsync( async ( req, res, next ) => {
   
-  let installment = await Installment.findById(req.params.id);
-  
+  let installment=await Installment.findById( req.params.id );
+  if ( !installment ) {
+    return next( new AppError( "Not exist heeheheh", 404 ) )
+  }
+  console.log( 'hello from approved installment ', installment )
+
   if(installment.installmentCount===installment.totalInstallmentCount){
   return  res.status( 200 ).json( {
       status: "success",
@@ -22,6 +26,8 @@ exports.approvedInstallment=catchAsync( async ( req, res, next ) => {
     } )
   }
   
+  console.log( "Line 26" )
+
   installment.installmentCount++;
   installment.ballotPaid=req.body.ballotPaid;
   installment.possesion=req.body.possesion;
@@ -38,6 +44,8 @@ exports.approvedInstallment=catchAsync( async ( req, res, next ) => {
     }
    
   } 
+
+  console.log( "Line 43 reached" )
 
  
   installment.remainingBalance -= installment.total;

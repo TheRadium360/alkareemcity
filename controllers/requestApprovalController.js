@@ -59,7 +59,9 @@ exports.updateApprovalRequest = catchAsync(async(req, res, next) => {
     console.log(req.installment);
     // const { user, plotNumber } = req.body;
 
-    const updatedResult=await RequestApproval.findOneAndUpdate( { user: installment.user, installment: installment._id, status: false }, { status: true } );
+    const updatedResult=await RequestApproval.findOneAndUpdate( { user: installment.user, installment: installment._id, status: false }, { status: true }, { new: true } );
+
+    console.log( "=>>> ", updatedResult )
 
     if ( !updatedResult ) return next( new AppError( "Request may have already been approved! or Try again later! " ) )
 
