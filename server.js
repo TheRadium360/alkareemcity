@@ -17,8 +17,8 @@ dotenv.config( {
 const app=require( "./app" );
 
 // ! Connecting our App with hoisted datatbase on Atlas Cloud
-// const DB=process.env.DATABASE.replace( "<password>", process.env.DATABASE_PASSWORD );
-const DB=process.env.DATABASE;
+const DB=process.env.DATABASE.replace( "<password>", process.env.DATABASE_PASSWORD );
+// const DB=process.env.DATABASE;
 mongoose.connect( DB, {
     useNewUrlParser: true,
     // useCreateIndex: true,
