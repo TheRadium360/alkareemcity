@@ -68,7 +68,8 @@ exports.approvedInstallment=catchAsync( async ( req, res, next ) => {
 
 exports.createInstallment = catchAsync(async(req, res, next) => {
   req.body.installmentCount = 1;
-  req.body.remainingBalance = req.body.totalAmount - ( req.body.bookingAmount + req.body.installmentPerMonth);
+  req.body.remainingBalance = Number(req.body.totalAmount) - (  Number(req.body.bookingAmount) +  Number(req.body.installmentPerMonth));
+  console.log( req.body.remainingBalance , req.body.totalAmount , req.body.bookingAmount , req.body.installmentPerMonth);
   const doc = await Installment.create(req.body);
   res.status(200).json({
     status: "success",
