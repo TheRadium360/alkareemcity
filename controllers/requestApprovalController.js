@@ -88,5 +88,20 @@ exports.getSingleRequestApproval=factory.getOne( RequestApproval );
 // Optimize: update based on id
 //exports.updateData=factory.updateOne( Model )
 
-// Optimize: delete  based on id
-//exports.deleteData=factory.deleteOne( Model );
+// Optimize: delete  based on user id
+exports.deleteRequestApproval=catchAsync( async ( req, res, next ) => {
+    try{   
+    const doc = await RequestApproval.deleteMany( {user:req.params.id} );
+    if ( !doc ) 
+        return next( new AppError( `Could not delete`, 404 ) );
+    
+    res.status( 204 ).json( {
+        status: 'success',
+        data: null
+    } )
+   }
+   catch(err){
+    return next( new AppError( `Could not delete`, 404 ) );   
+   }
+    } );
+  
