@@ -86,10 +86,10 @@ exports.getSingleRequestApproval=factory.getOne( RequestApproval );
 //exports.createData=factory.createOne( Model );
 
 // Optimize: update based on id
-//exports.updateData=factory.updateOne( Model )
+exports.deleteRequestApproval=factory.deleteOne( RequestApproval )
 
 // Optimize: delete  based on user id
-exports.deleteRequestApproval=catchAsync( async ( req, res, next ) => {
+exports.deleteUsersRequestApproval=catchAsync( async ( req, res, next ) => {
     try{   
     const doc = await RequestApproval.deleteMany( {user:req.params.id} );
     if ( !doc ) 

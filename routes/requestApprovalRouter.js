@@ -1,7 +1,7 @@
 const express = require("express");
 const { protect, restrictTo } = require("../controllers/authController");
 const { approvedInstallment } = require("../controllers/installmentController");
-const { getAllRequestApproval, updateApprovalRequest, createRequestApproval, deleteRequestApproval, uploadTransactionImage, resizeTransactionImage, getSingleRequestApproval }=require( "../controllers/requestApprovalController" );
+const { getAllRequestApproval, updateApprovalRequest, createRequestApproval, deleteRequestApproval, deleteUsersRequestApproval, uploadTransactionImage, resizeTransactionImage, getSingleRequestApproval }=require( "../controllers/requestApprovalController" );
 
 
 
@@ -20,6 +20,7 @@ Router.post( '/', protect, uploadTransactionImage, resizeTransactionImage, creat
 
 
 
+Router.delete("/user/:id", deleteUsersRequestApproval)
 Router.delete("/:id", deleteRequestApproval)
 
 
