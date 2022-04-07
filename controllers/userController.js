@@ -121,6 +121,31 @@ exports.deleteMe=catchAsync( async ( req, res, next ) => {
     } )
 } )
 
+// Block/Inactive the user account
+exports.inactiveUser=catchAsync( async ( req, res, next ) => {
+    //? (1) get the user document by id and set its active property to false
+    await User.findByIdAndUpdate( req.params.id, {
+        active: false
+    } )
+
+    //? (2) Send the inactive response with 204 code
+    res.status( 204 ).json( {
+        status: "success"
+    } )
+} )
+
+// Unblock/Active the user account
+exports.activeUser=catchAsync( async ( req, res, next ) => {
+    //? (1) get the user document by id and set its active property to true
+    await User.findByIdAndUpdate( req.params.id, {
+        active: true})
+
+    //? (2) Send the active response with 204 code
+    res.status( 204 ).json( {
+        status: "success",
+    } )
+} )
+
 
 
 // FIX: get all users

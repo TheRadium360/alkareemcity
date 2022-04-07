@@ -10,7 +10,9 @@ const {
     createUser,
     updateUserPass, // For admins
     // uploadUserPhoto,
-    // resizeUserPhoto
+    // resizeUserPhoto,
+    activeUser,
+    inactiveUser,
 }=require( `./../controllers/userController` );
 
 
@@ -38,8 +40,8 @@ userRouter.post( '/signup', signUp );
 userRouter.post( '/login', logIn );
 userRouter.post( '/forgotpassword', forgotPassword );
 userRouter.patch( '/resetpassword/:token', resetPassword );
-userRouter.route( "/:id" )
-    .get( getUser )
+// userRouter.route( "/:id" )
+//     .get( getUser )
 
 
 //! Below routes are for logged-in users
@@ -61,6 +63,8 @@ userRouter.route( "/" )
 
 userRouter.route( "/:id" )
     .delete( deleteUser )
-    .patch( updateUser, updateUserPass )
-
+    .patch( updateUser, updateUserPass );
+    
+userRouter.patch( "/activeuser/:id", activeUser )
+userRouter.patch( '/inactiveuser/:id', inactiveUser );
 module.exports=userRouter;

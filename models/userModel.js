@@ -39,8 +39,7 @@ const userSchema=new mongoose.Schema( {
     },
     active: {
         type: Boolean,
-        default: true,
-        select: false
+        default: true
     },
     CNIC: {
         type: String,
@@ -132,9 +131,9 @@ userSchema.pre( 'save', function ( next ) {
 } )
 
 userSchema.pre( /^find/, function ( next ) {
-    this.find( {
-        active: true
-    } );
+    // this.find( {
+    //     active: true
+    // } );
     next()
 } )
 
