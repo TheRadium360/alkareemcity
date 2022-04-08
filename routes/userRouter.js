@@ -40,8 +40,8 @@ userRouter.post( '/signup', signUp );
 userRouter.post( '/login', logIn );
 userRouter.post( '/forgotpassword', forgotPassword );
 userRouter.patch( '/resetpassword/:token', resetPassword );
-// userRouter.route( "/:id" )
-//     .get( getUser )
+userRouter.route( "/:id" )
+    .get( getUser )
 
 
 //! Below routes are for logged-in users

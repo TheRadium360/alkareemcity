@@ -129,7 +129,7 @@ exports.inactiveUser=catchAsync( async ( req, res, next ) => {
     } )
 
     //? (2) Send the inactive response with 204 code
-    res.status( 204 ).json( {
+    res.status( 200 ).json( {
         status: "success"
     } )
 } )
@@ -141,7 +141,7 @@ exports.activeUser=catchAsync( async ( req, res, next ) => {
         active: true})
 
     //? (2) Send the active response with 204 code
-    res.status( 204 ).json( {
+    res.status( 200 ).json( {
         status: "success",
     } )
 } )
