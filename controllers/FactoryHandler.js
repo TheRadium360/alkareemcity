@@ -101,10 +101,7 @@ exports.getAll=( Model, populateOptions, options ) => {
 
 
         let filterObj = {};
-        if ( req.params.tourId ) filterObj = {
-            tour: req.params.tourId
-        };
-
+     
         const features = new APIFeatures( Model.find( filterObj ), req.query );
 
         features

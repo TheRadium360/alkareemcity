@@ -149,7 +149,36 @@ exports.activeUser=catchAsync( async ( req, res, next ) => {
 
 
 // FIX: get all users
-exports.getAllUsers=factory.getAll( User, { path: "installmentPlan plotInformation" }, { role: "user" } );
+// exports.getAllUsers=factory.getAll( User, { path: "installmentPlan plotInformation" }, { role: "user" } );
+
+exports.getAllUsers=catchAsync( async ( req, res, next ) => {
+
+    // ! EXECUTE TlHE QUERRY
+    let docs=await User.find(  { role: "user" } ).populate({ path: "installmentPlan plotInformation" } );
+
+
+    // console.log(docs);
+
+    // docs.forEach(async (el)=>{
+    //   if(el.plotInformation.length===0 || el.installmentPlan.length===0)
+    //   await User.findOneAndDelete(el.id);
+    // })
+
+
+    const filteredDocs=docs.filter((el)=>{
+      return el.plotInformation.length!=0 && el.installmentPlan.length!=0;
+    })
+
+    // ! SENDING THE REPONSE
+    res.status( 200 ).json( {
+        status: 'success',
+        results: filteredDocs.length,
+        data: {
+            data: filteredDocs
+        }
+    } );
+
+} );
 
 // FIX: get single users basaed on id
 exports.getUser=factory.getOne( User, { path: "installmentPlan plotInformation requestApprovalInformation" } );
