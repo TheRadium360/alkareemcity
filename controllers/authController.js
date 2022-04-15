@@ -86,7 +86,8 @@ exports.logIn=catchAsync( async ( req, res, next ) => {
     }
 
     const user=await User.findOne( {
-        email
+        email,
+        active: true
     } ).select( '+password' );
 
     //? (3) Checking if user is a valid user
