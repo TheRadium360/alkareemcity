@@ -4,6 +4,8 @@ const User=require( "../models/userModel" );
 const catchAsync=require( "../utils/catchAysnc" );
 const AppError=require( "../utils/appError" );
 const factory=require( './FactoryHandler' );
+const Installment = require("../models/installmentModel");
+const Plot = require("../models/plotModel");
 
 
 //Todo:  ************************** helper functuions ******************************
@@ -152,9 +154,8 @@ exports.activeUser=catchAsync( async ( req, res, next ) => {
 // exports.getAllUsers=factory.getAll( User, { path: "installmentPlan plotInformation" }, { role: "user" } );
 
 exports.getAllUsers=catchAsync( async ( req, res, next ) => {
-
     // ! EXECUTE TlHE QUERRY
-    let docs=await User.find(  { role: "user" } ).populate({ path: "installmentPlan plotInformation" } );
+    let docs=await User.find(  { role: "user" } );
 
 
     // console.log(docs);
@@ -164,10 +165,10 @@ exports.getAllUsers=catchAsync( async ( req, res, next ) => {
     //   await User.findOneAndDelete(el.id);
     // })
 
-
-    const filteredDocs=docs.filter((el)=>{
-      return el.plotInformation.length!=0 && el.installmentPlan.length!=0;
-    })
+     const filteredDocs=docs;
+    // const filteredDocs=docs.filter((el)=>{
+    //   return el.plotInformation.length!=0 && el.installmentPlan.length!=0;
+    // })
 
     // ! SENDING THE REPONSE
     res.status( 200 ).json( {
@@ -180,8 +181,27 @@ exports.getAllUsers=catchAsync( async ( req, res, next ) => {
 
 } );
 
+
+
+// To get users all data
+exports.getUserEditPrefill=catchAsync( async ( req, res, next ) => {
+
+    const doc = await User.findById( req.params.id ).populate("installmentPlan plotInformation");
+    
+    if ( !doc) {
+        return next( new AppError( `Could not find all data for the ID: ${req.params.id}`, 404 ) );
+    }
+
+    res.status( 200 ).json( {
+        status: 'success',
+        data: doc
+    } );
+
+} )
+
+
 // FIX: get single users basaed on id
-exports.getUser=factory.getOne( User, { path: "installmentPlan plotInformation requestApprovalInformation" } );
+exports.getUser=factory.getOne( User );
 
 // FIX: Create user basaed (By Admins)
 exports.createUser=factory.createOne( User, { ret: true } );

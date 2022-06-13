@@ -2,6 +2,8 @@ const Installment=require( "../models/installmentModel" );
 const catchAsync=require( "../utils/catchAysnc" );
 const AppError=require( "../utils/appError" );
 const factory=require( './FactoryHandler' );
+const mongoose = require('mongoose')
+const RequestApproval = require("../models/requestApprovalModel");
 
 
 //Todo:  ************************** helper functuions ******************************
@@ -25,9 +27,6 @@ exports.approvedInstallment=catchAsync( async ( req, res, next ) => {
       },
     } )
   }
-
-  console.log( "Line 26" )
-
   installment.installmentCount++;
   installment.ballotPaid=req.body.ballotPaid;
   installment.possesion=req.body.possesion;
@@ -77,7 +76,25 @@ exports.createInstallment=catchAsync( async ( req, res, next ) => {
   } )
 } )
 
-exports.getInstallment=factory.getOne( Installment, { path: "plot" } );
+exports.getInstallment=factory.getOne( Installment );
+
+exports.getInstallmentOfUser=catchAsync(async (req,res,next)=>{
+  const id=req.params.id;
+  
+  let doc = await Installment.find( {user: id} );
+  let requests = await RequestApproval.find( {installment: doc[0].id} );
+  if ( !doc ) {
+    return next( new AppError( `Could not find a plot with this user ID: ${req.params.id}`, 404 ) );
+  }
+  let resultDoc=doc[0];
+  console.log("yeh hai object ",resultDoc.toObject());
+  res.status( 200 ).json( {
+      status: 'success',
+      data: [{...resultDoc.toObject(),requestCount:requests.length}]
+  } );
+})
+
+
 // exports.getInstallment=factory.getOne( );
 
 // Optimize: get all

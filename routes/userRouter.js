@@ -13,6 +13,7 @@ const {
     // resizeUserPhoto,
     activeUser,
     inactiveUser,
+    getUserEditPrefill,
 }=require( `./../controllers/userController` );
 
 
@@ -57,10 +58,11 @@ userRouter.get( '/me', getUser )
 //! Below routes are restricted to only admins
 userRouter.use( restrictTo( 'admin' ) ); // restricting routes
 userRouter.route( "/" )
-    .get( getAllUsers )
-    .post( createUser )
+.get( getAllUsers )
+.post( createUser )
 
 
+userRouter.route( "/edit/:id" ).get(getUserEditPrefill)
 userRouter.route( "/:id" )
     .delete( deleteUser )
     .patch( updateUser, updateUserPass );
