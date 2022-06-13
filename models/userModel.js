@@ -60,7 +60,7 @@ const userSchema=new mongoose.Schema( {
     password: {
         type: String,
         required: [ true, 'Please provide your password' ],
-        minLength: [ 8, "Password must be of atleast 8 characters long" ],
+        minLength: [ 8, "Password must be atleast 8 characters long" ],
         select: false
     },
 
@@ -73,6 +73,15 @@ const userSchema=new mongoose.Schema( {
             },
             message: "Password and Confirm-password are not same!"
         }
+    },
+
+    publish:{
+        type: Boolean,
+        default: false
+    },
+
+    plotNo:{
+        type:String
     },
 
     changePasswordAt: Date,

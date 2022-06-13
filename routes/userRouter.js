@@ -14,6 +14,7 @@ const {
     activeUser,
     inactiveUser,
     getUserEditPrefill,
+    publishUser
 }=require( `./../controllers/userController` );
 
 
@@ -44,25 +45,26 @@ userRouter.patch( '/resetpassword/:token', resetPassword );
 userRouter.route( "/:id" )
     .get( getUser )
 
-
-//! Below routes are for logged-in users
-userRouter.use( protect ); // protecting routes
-userRouter.patch( '/updatemypassword', updatePassword );
-// userRouter.patch( '/updateMe', uploadUserPhoto, resizeUserPhoto , updateMe );
-userRouter.patch( '/updateme', updateMe );
-userRouter.delete( '/deleteme', deleteMe );
-userRouter.get( '/me', getUser )
+    
+    //! Below routes are for logged-in users
+    userRouter.use( protect ); // protecting routes
+    userRouter.patch( '/updatemypassword', updatePassword );
+    // userRouter.patch( '/updateMe', uploadUserPhoto, resizeUserPhoto , updateMe );
+    userRouter.patch( '/updateme', updateMe );
+    userRouter.delete( '/deleteme', deleteMe );
+    userRouter.get( '/me', getUser )
+    userRouter.route( "/edit/:id" ).get(getUserEditPrefill)
 
 
 
 //! Below routes are restricted to only admins
 userRouter.use( restrictTo( 'admin' ) ); // restricting routes
+userRouter.route("/publish/:id").patch(publishUser);
 userRouter.route( "/" )
 .get( getAllUsers )
 .post( createUser )
 
 
-userRouter.route( "/edit/:id" ).get(getUserEditPrefill)
 userRouter.route( "/:id" )
     .delete( deleteUser )
     .patch( updateUser, updateUserPass );

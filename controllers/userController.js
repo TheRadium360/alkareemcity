@@ -155,20 +155,9 @@ exports.activeUser=catchAsync( async ( req, res, next ) => {
 
 exports.getAllUsers=catchAsync( async ( req, res, next ) => {
     // ! EXECUTE TlHE QUERRY
-    let docs=await User.find(  { role: "user" } );
-
-
-    // console.log(docs);
-
-    // docs.forEach(async (el)=>{
-    //   if(el.plotInformation.length===0 || el.installmentPlan.length===0)
-    //   await User.findOneAndDelete(el.id);
-    // })
-
+    let docs=await User.find(  { role: "user" ,publish:true} );
      const filteredDocs=docs;
-    // const filteredDocs=docs.filter((el)=>{
-    //   return el.plotInformation.length!=0 && el.installmentPlan.length!=0;
-    // })
+    
 
     // ! SENDING THE REPONSE
     res.status( 200 ).json( {
@@ -240,6 +229,20 @@ exports.updateUser=catchAsync( async ( req, res, next ) => {
 } )
 
 
+exports.publishUser=catchAsync(async(req,res,next)=>{
+    const doc = await User.findByIdAndUpdate(req.params.id,{publish:true,...req.body}, {
+        new: true,
+    } )
+    
+    if ( !doc ) {
+        return next( new AppError( `Could not found document with ID: ${req.params.id}`, 404 ) );
+    }
+
+    res.status( 200 ).json( {
+        status: 'success',
+        data: doc
+    } );
+})
 
 exports.updateUserPass=catchAsync( async ( req, res, next ) => {
 
